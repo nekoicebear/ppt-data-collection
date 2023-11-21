@@ -25,8 +25,12 @@
     }
 </script>
 
-<div class="container">
-    <h5 class="my-3 border-bottom pb-2">질문 등록</h5>
+<div class="container" style="font-family: 'Jua', sans-serif;">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Jua&display=swap" rel="stylesheet">
+    
+    <h5 class="my-3 border-bottom pb-2">글쓰기</h5>
     <Error error={error} />
     <form method="post" class="my-3">
         <div class="mb-3">

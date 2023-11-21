@@ -1,7 +1,3 @@
-
-
-
-
 <script>
     import { push } from 'svelte-spa-router'
     import fastapi from "../lib/api"
@@ -13,12 +9,13 @@
     let error = {detail:[]}
     let subject = ''
     let content = ''
-    
-    fastapi("get", "/api/question/detail/" + question_id, {}, (json) => {
+
+    fastapi("get", "/api/question/detail/" + question_id, {},
+    (json) => {
         subject = json.subject
         content = json.content
     })
-    
+
     function update_question(event) {
         event.preventDefault()
         let url = "/api/question/update"
@@ -27,7 +24,7 @@
             subject: subject,
             content: content,
         }
-        fastapi('put', url, params, 
+        fastapi('put', url, params,
             (json) => {
                 push('/detail/'+question_id)
             },
@@ -38,7 +35,11 @@
     }
 </script>
 
-<div class="container">
+<div class="container" style="font-family: 'Jua', sans-serif;">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Jua&display=swap" rel="stylesheet">
+    
     <h5 class="my-3 border-bottom pb-2">질문 수정</h5>
     <Error error={error} />
     <form method="post" class="my-3">
@@ -50,6 +51,6 @@
             <label for="content">내용</label>
             <textarea class="form-control" rows="10" bind:value="{content}"></textarea>
         </div>
-        <button class="btn btn-primary" on:click="{update_question}">수정하기</button>
+        <button class="btn btn-outline-warning" on:click= "{update_question}">수정하기</button>
     </form>
 </div>

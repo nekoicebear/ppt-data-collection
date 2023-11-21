@@ -1,7 +1,3 @@
-
-
-
-
 <script>
     import fastapi from "../lib/api"
     import Error from "../components/Error.svelte"
@@ -12,10 +8,11 @@
     moment.locale('ko')
 
     export let params = {}
-    let question_id = params.question_id
+    let question_id = params.question_id  
     let question = {answers:[], voter:[], content: ''}
     let content = ""
     let error = {detail:[]}
+
 
     function get_question() {
         fastapi("get", "/api/question/detail/" + question_id, {}, (json) => {
@@ -44,7 +41,7 @@
     }
 
     function delete_question(_question_id) {
-        if(window.confirm('정말로 삭제하시겠습니까?')) {
+        if(window.confirm('삭제하시겠습니까?')) {
             let url = "/api/question/delete"
             let params = {
                 question_id: _question_id
@@ -61,7 +58,7 @@
     }
 
     function delete_answer(answer_id) {
-        if(window.confirm('정말로 삭제하시겠습니까?')) {
+        if(window.confirm('삭제하시겠습니까?')) {
             let url = "/api/answer/delete"
             let params = {
                 answer_id: answer_id
@@ -78,7 +75,7 @@
     }
 
     function vote_question(_question_id) {
-        if(window.confirm('정말로 추천하시겠습니까?')) {
+        if(window.confirm('추천하시겠습니까?')) {
             let url = "/api/question/vote"
             let params = {
                 question_id: _question_id
@@ -95,7 +92,7 @@
     }
 
     function vote_answer(answer_id) {
-        if(window.confirm('정말로 추천하시겠습니까?')) {
+        if(window.confirm('추천하시겠습니까?')) {
             let url = "/api/answer/vote"
             let params = {
                 answer_id: answer_id
@@ -112,14 +109,16 @@
     }
 </script>
 
-<div class="container my-3">
+<div class="container my-3" style="font-family: 'Jua', sans-serif;">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Jua&display=swap" rel="stylesheet">
     <!-- 질문 -->
     <h2 class="border-bottom py-2">{question.subject}</h2>
     <div class="card my-3">
         <div class="card-body">
             <div class="card-text">
-                {@html marked.parse(question.content)}
-            </div>
+                {@html marked.parse(question.content)}</div>
             <div class="d-flex justify-content-end">
                 {#if question.modify_date }
                 <div class="badge bg-light text-dark p-2 text-start mx-3">
@@ -127,28 +126,28 @@
                     <div>{moment(question.modify_date).format("YYYY년 MM월 DD일 hh:mm a")}</div>
                 </div>
                 {/if}
+
                 <div class="badge bg-light text-dark p-2 text-start">
-                    <div class="mb-2">{ question.user ? question.user.username : ""}</div>
+                <div class="mb-2">{question.user ? question.user.username : ""}</div>
                     <div>{moment(question.create_date).format("YYYY년 MM월 DD일 hh:mm a")}</div>
                 </div>
             </div>
             <div class="my-3">
                 <button class="btn btn-sm btn-outline-secondary"
-                    on:click="{vote_question(question.id)}"> 
-                    추천
-                    <span class="badge rounded-pill bg-success">{ question.voter.length }</span>
-                </button>
+                on:click="{vote_question(question.id)}">
+                추천
+                <span class="badge rounded-pill bg-success">{question.voter.length}</span></button>
                 {#if question.user && $username === question.user.username }
-                <a use:link href="/question-modify/{question.id}" 
-                    class="btn btn-sm btn-outline-secondary">수정</a>
-                <button class="btn btn-sm btn-outline-secondary"
+                <a use:link href="/question-modify/{question.id}"
+                class="btn btn-sm btn-outline-secondary"  style="border-color: #FFD700; color: #FFD700;">수정</a>
+                <button class="btn btn-sm btn-outline-secondary" style="border-color: #FA8072; color: #FA8072;"
                     on:click={() => delete_question(question.id)}>삭제</button>
                 {/if}
             </div>
         </div>
     </div>
 
-    <button class="btn btn-secondary" on:click="{() => {
+    <button class="btn bth-secondary" style="background-color: #FFDEAD;" on:click="{() => {
         push('/')
     }}">목록으로</button>
 
@@ -158,8 +157,7 @@
     <div class="card my-3">
         <div class="card-body">
             <div class="card-text">
-                {@html marked.parse(answer.content)}
-            </div>
+                {@html marked.parse(question.content)}</div>
             <div class="d-flex justify-content-end">
                 {#if answer.modify_date }
                 <div class="badge bg-light text-dark p-2 text-start mx-3">
@@ -167,8 +165,9 @@
                     <div>{moment(answer.modify_date).format("YYYY년 MM월 DD일 hh:mm a")}</div>
                 </div>
                 {/if}
+
                 <div class="badge bg-light text-dark p-2 text-start">
-                    <div class="mb-2">{ answer.user ? answer.user.username : ""}</div>
+                    <div class="mb-2">{ question.user ? question.user.username : ""}</div>
                     <div>{moment(answer.create_date).format("YYYY년 MM월 DD일 hh:mm a")}</div>
                 </div>
             </div>
@@ -178,11 +177,12 @@
                     추천
                     <span class="badge rounded-pill bg-success">{ answer.voter.length }</span>
                 </button>
+
                 {#if answer.user && $username === answer.user.username }
                 <a use:link href="/answer-modify/{answer.id}" 
                     class="btn btn-sm btn-outline-secondary">수정</a>
                 <button class="btn btn-sm btn-outline-secondary"
-                    on:click={() => delete_answer(answer.id) }>삭제</button>
+                on:click={() => delete_answer(answer.id) }>삭제</button>
                 {/if}
             </div>
         </div>
@@ -192,11 +192,12 @@
     <Error error={error} />
     <form method="post" class="my-3">
         <div class="mb-3">
-            <textarea rows="10" bind:value={content} 
-                disabled={$is_login ? "" : "disabled"}
-                class="form-control" />
+            <textarea rows="10" bind:value={content}
+            disabled={$is_login ? "" : "disabled"}
+            class="form-control" />
         </div>
-        <input type="submit" value="답변등록" class="btn btn-primary {$is_login ? '' : 'disabled'}" 
-            on:click="{post_answer}" />
+        <input type="submit" value="답변등록" class="btn btn-primary
+        {$is_login ? '' : 'disabled'}"
+        on:click="{post_answer}" />
     </form>
 </div>

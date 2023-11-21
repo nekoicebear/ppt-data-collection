@@ -1,7 +1,3 @@
-
-
-
-
 <script>
   import Router from 'svelte-spa-router'
   import Home from "./routes/Home.svelte"
@@ -12,6 +8,7 @@
   import UserLogin from "./routes/UserLogin.svelte"
   import QuestionModify from "./routes/QuestionModify.svelte"
   import AnswerModify from "./routes/AnswerModify.svelte"
+  import CultureCenter from './routes/CultureCenter.svelte'
 
   const routes = {
     '/': Home,
@@ -21,6 +18,7 @@
     '/user-login': UserLogin,
     '/question-modify/:question_id': QuestionModify,
     '/answer-modify/:answer_id': AnswerModify,
+    '/pet-culture-center': CultureCenter,
   }
 </script>
 

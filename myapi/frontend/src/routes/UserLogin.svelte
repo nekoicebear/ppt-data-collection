@@ -1,8 +1,8 @@
 <script>
     import { push } from 'svelte-spa-router'
     import fastapi from "../lib/api"
-    import Error from "../components/Error.svelte"
-    import { access_token, username, is_login } from "../lib/store"
+    import Error from "../components/Error.svelte"   
+    import { access_token, username, is_login } from "../lib/store" 
 
     let error = {detail:[]}
     let login_username = ""
@@ -29,7 +29,11 @@
     }
 </script>
 
-<div class="container">
+<div class="container" style="font-family: 'Jua', sans-serif;">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Jua&display=swap" rel="stylesheet">
+    
     <h5 class="my-3 border-bottom pb-2">로그인</h5>
     <Error error={error} />
     <form method="post">

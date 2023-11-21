@@ -1,54 +1,21 @@
-# # import contextlib
-# from sqlalchemy import create_engine, MetaData
-# from sqlalchemy.ext.asyncio import create_async_engine, AsyncSession
-# from sqlalchemy.ext.declarative import declarative_base
-# from sqlalchemy.orm import sessionmaker
-# from starlette.config import Config
-#
-# SQLALCHEMY_DATABASE_URL = "sqlite:///./myapi.db"
-#
-# #커넥션 풀(데베에 접속하는 객체를 일정 갯수만큼 만들어 놓고 돌려가며 사용) 생성
-# engine = create_engine(
-#     SQLALCHEMY_DATABASE_URL, connect_args={"check_same_thread": False}
-# )
-# #데베 접속시 필요한 SessionLocal
-# SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
-#
-# Base = declarative_base()
-# naming_convention = {
-#     "ix": 'ix_%(column_0_label)s',
-#     "uq": "uq_%(table_name)s_%(column_0_name)s",
-#     "ck": "ck_%(table_name)s_%(column_0_name)s",
-#     "fk": "fk_%(table_name)s_%(column_0_name)s_%(referred_table_name)s",
-#     "pk": "pk_%(table_name)s"
-# }
-# Base.metadata = MetaData(naming_convention=naming_convention)
-#
-# # @contextlib.contextmanager
-# def get_db():
-#     db = SessionLocal()
-#     try:
-#         yield db
-#     finally:
-#         db.close()
+#import contextlib 의존성 주입(필요한 기능을 선언하여 사용)
+
 from sqlalchemy import create_engine, MetaData
-from sqlalchemy.ext.asyncio import create_async_engine, AsyncSession
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
-from starlette.config import Config
 
-# config = Config('.env')
-# SQLALCHEMY_DATABASE_URL = config('SQLALCHEMY_DATABASE_URL')
+SQLALCHEMY_DATABASE_URL = "sqlite:///./myapi.db"
+#이것은 sqlite3 데베의 파일을 의미한다.
 
-if SQLALCHEMY_DATABASE_URL.startswith("sqlite"):
-    engine = create_engine(
-        SQLALCHEMY_DATABASE_URL, connect_args={"check_same_thread": False}
-    )
-else:
-    engine = create_engine(SQLALCHEMY_DATABASE_URL)
+#데베와의 연결 설정.
+engine = create_engine(
+    SQLALCHEMY_DATABASE_URL, connect_args={"check_same_thread": False}
+)
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 
+#모든 클래스의 기본 클래스를 만든다. ORM을 사용해 데베 테이블 정의 가능.
 Base = declarative_base()
+#테이블과의 제약 조건의 명명 규칙을 정의
 naming_convention = {
     "ix": 'ix_%(column_0_label)s',
     "uq": "uq_%(table_name)s_%(column_0_name)s",
@@ -58,7 +25,9 @@ naming_convention = {
 }
 Base.metadata = MetaData(naming_convention=naming_convention)
 
-
+#@contextlib.contextmanager
+#제너레이터
+#데베 세션을 제공하는 함수
 def get_db():
     db = SessionLocal()
     try:
@@ -66,15 +35,8 @@ def get_db():
     finally:
         db.close()
 
-
-# Async database
-SQLALCHEMY_DATABASE_URL_ASYNC = config('SQLALCHEMY_DATABASE_URL_ASYNC')
-async_engine = create_async_engine(SQLALCHEMY_DATABASE_URL_ASYNC)
-
-
-async def get_async_db():
-    db = AsyncSession(bind=async_engine)
-    try:
-        yield db
-    finally:
-        await db.close()
+"""
+제너레이터: 계속 값 반환(이터레이터)를 생성해 주는 함수
+이터레이터: 계속 그 다음 값을 반환.
+어노테이션: 반환 값의 데이터를 미리 알려줌.
+"""

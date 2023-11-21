@@ -1,7 +1,3 @@
-
-
-
-
 import { writable } from 'svelte/store'
 
 const persist_storage = (key, initValue) => {

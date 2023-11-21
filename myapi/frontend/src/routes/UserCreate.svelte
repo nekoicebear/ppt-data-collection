@@ -29,7 +29,11 @@
     }
 </script>
 
-<div class="container">
+<div class="container" style="font-family: 'Jua', sans-serif;">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Jua&display=swap" rel="stylesheet">
+    
     <h5 class="my-3 border-bottom pb-2">회원 가입</h5>
     <Error error={error} />
     <form method="post">

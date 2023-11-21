@@ -1,11 +1,8 @@
-"""
-완료
-"""
 from sqlalchemy import Column, Integer, String, Text, DateTime, ForeignKey, Table
 from sqlalchemy.orm import relationship
-
 from database import Base
 
+#질문 추천 데이블 객체
 question_voter = Table(
     'question_voter',
     Base.metadata,
@@ -20,8 +17,8 @@ answer_voter = Table(
     Column('answer_id', Integer, ForeignKey('answer.id'), primary_key=True)
 )
 
-
 class Question(Base):
+    #Question 모델을 통해 테이블이 생성되면 테이블명은 question이 된다.
     __tablename__ = "question"
 
     id = Column(Integer, primary_key=True)
@@ -32,7 +29,6 @@ class Question(Base):
     user = relationship("User", backref="question_users")
     modify_date = Column(DateTime, nullable=True)
     voter = relationship('User', secondary=question_voter, backref='question_voters')
-
 
 class Answer(Base):
     __tablename__ = "answer"
@@ -47,7 +43,6 @@ class Answer(Base):
     modify_date = Column(DateTime, nullable=True)
     voter = relationship('User', secondary=answer_voter, backref='answer_voters')
 
-
 class User(Base):
     __tablename__ = "user"
 
@@ -55,3 +50,4 @@ class User(Base):
     username = Column(String, unique=True, nullable=False)
     password = Column(String, nullable=False)
     email = Column(String, unique=True, nullable=False)
+

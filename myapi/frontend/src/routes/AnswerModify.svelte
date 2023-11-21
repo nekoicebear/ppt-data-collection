@@ -1,7 +1,3 @@
-
-
-
-
 <script>
     import fastapi from "../lib/api"
     import Error from "../components/Error.svelte"
@@ -9,7 +5,7 @@
 
     export let params = {}
     const answer_id = params.answer_id
-    
+
     let error = {detail:[]}
     let question_id = 0
     let content = ''
@@ -18,7 +14,7 @@
         question_id = json.question_id
         content = json.content
     })
-    
+
     function update_answer(event) {
         event.preventDefault()
         let url = "/api/answer/update"
@@ -37,7 +33,11 @@
     }
 </script>
 
-<div class="container">
+<div class="container" style="font-family: 'Jua', sans-serif;">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Jua&display=swap" rel="stylesheet">
+    
     <h5 class="my-3 border-bottom pb-2">답변 수정</h5>
     <Error error={error} />
     <form method="post" class="my-3">
